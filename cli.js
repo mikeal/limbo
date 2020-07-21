@@ -4,7 +4,9 @@ import run from './index.js'
 
 const options = yargs => {
   yargs.option('save', {
-    desc: 'Save export maps and browser fields'
+    desc: 'Save export maps and browser fields',
+    type: 'boolean',
+    default: false
   })
 }
 
