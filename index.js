@@ -36,7 +36,6 @@ const pkg = JSON.parse(readFileSync(join(cwd, 'package.json')))
 const { name } = pkg
 
 const run = async ({ files, save }) => {
-  console.log({ save })
   const configs = [...mkconfigs(name, files), ...mkconfigs(name, files, pkg)]
   const written = new Map()
   const writeConfig = async config => {
@@ -64,11 +63,25 @@ const run = async ({ files, save }) => {
   if (save) {
     const browser = {}
     const iter = Object.entries(Object.fromEntries(written.entries())).sort()
+    if (!pkg.exports) pkg.exports = {}
     for (let [key, value] of iter) {
+      if (value.includes('/test/')) continue
       if (key.startsWith('dist/cjs-browser/')) {
         key = './' + key.slice('dist/cjs-browser/'.length)
         value = './' + value
         browser[key] = value
+      } else if (key.startsWith('dist/cjs-node/')) {
+        key = './' + key.slice('dist/cjs-node/'.length)
+        value = './' + value
+        if (!pkg.exports[key]) {
+          pkg.exports[key] = {}
+        }
+        if (!pkg.exports[key].import) {
+          pkg.exports[key].import = key
+        }
+        if (!pkg.exports[key].require) {
+          pkg.exports[key].require = value
+        }
       }
     }
     pkg.browser = browser
