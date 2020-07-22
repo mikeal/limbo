@@ -1,14 +1,13 @@
-import { readFileSync, writeFileSync } from 'fs'
-import { fileURLToPath } from 'url'
+import { readFileSync, writeFileSync, promises as fs } from 'fs'
 import { rollup } from 'rollup'
 import { join, dirname } from 'path'
-import { promises as fs } from 'fs'
+
 import alias from '@rollup/plugin-alias'
 
 const cwd = process.cwd()
 
 const mkconfigs = (name, files, browser) => {
-  const dir = 'dist/cjs-' + ( browser ? 'browser' : 'node' )
+  const dir = 'dist/cjs-' + (browser ? 'browser' : 'node')
   const preserveModules = true
   const entries = []
   if (browser) {
@@ -23,7 +22,7 @@ const mkconfigs = (name, files, browser) => {
     }
   }
   entries.push({ find: name, replacement: cwd })
-  const plugins = [ alias({ entries }) ]
+  const plugins = [alias({ entries })]
 
   const ext = browser ? 'js' : 'cjs'
   const treeshake = false
@@ -36,9 +35,9 @@ const mkconfigs = (name, files, browser) => {
 const pkg = JSON.parse(readFileSync(join(cwd, 'package.json')))
 const { name } = pkg
 
-const run = async ({files, save}) => {
-  console.log({save})
-  const configs = [ ...mkconfigs(name, files), ...mkconfigs(name, files, pkg) ]
+const run = async ({ files, save }) => {
+  console.log({ save })
+  const configs = [...mkconfigs(name, files), ...mkconfigs(name, files, pkg)]
   const written = new Map()
   const writeConfig = async config => {
     const bundle = await rollup(config)

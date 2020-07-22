@@ -8,7 +8,7 @@
     "@mikeal/limbo": "./cli.js"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "standard"
   },
   "keywords": [],
   "author": "Mikeal Rogers <mikeal.rogers@gmail.com> (https://www.mikealrogers.com/)",
@@ -17,5 +17,8 @@
     "@rollup/plugin-alias": "^3.1.1",
     "brrp": "0.0.4",
     "rollup": "^2.22.1"
+  },
+  "devDependencies": {
+    "standard": "^14.3.4"
   }
 }

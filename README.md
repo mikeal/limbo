@@ -3,6 +3,8 @@
 Writing native ESM and being compatibile with people who use `require()`
 in Node.js and older compilers is pretty broken. `limbo` is here to help.
 
+Run the following command in the root of your package.
+
 ```
 $ npx @mikeal/limbo test/test*.js
 ```
