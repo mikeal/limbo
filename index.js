@@ -70,17 +70,26 @@ const run = async ({ files, save }) => {
         key = './' + key.slice('dist/cjs-browser/'.length)
         value = './' + value
         browser[key] = value
+        if (key === './index.js') {
+          browser['./'] = value
+        }
       } else if (key.startsWith('dist/cjs-node/')) {
         key = './' + key.slice('dist/cjs-node/'.length)
         value = './' + value
-        if (!pkg.exports[key]) {
-          pkg.exports[key] = {}
+        const _write = (key, value) => {
+          if (!pkg.exports[key]) {
+            pkg.exports[key] = {}
+          }
+          if (!pkg.exports[key].import) {
+            pkg.exports[key].import = key
+          }
+          if (!pkg.exports[key].require) {
+            pkg.exports[key].require = value
+          }
         }
-        if (!pkg.exports[key].import) {
-          pkg.exports[key].import = key
-        }
-        if (!pkg.exports[key].require) {
-          pkg.exports[key].require = value
+        _write(key, value)
+        if (key === './index.js') {
+          _write('./', value)
         }
       }
     }
