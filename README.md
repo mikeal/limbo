@@ -25,9 +25,9 @@ local files for your package.
 
 You'll still need to reference all of these files in your package.json.
 
-It's a bit complicated to explain, so there's a flag you can use that will
-mutate the local package.json and add all the required `browser` and `export`
-fields.
+It's a bit complicated to explain, so there's a `--save` flag you can use
+that will mutate the local package.json and add all the required `browser`
+and `export` fields.
 
 # What is still broken in native ESM?
 
